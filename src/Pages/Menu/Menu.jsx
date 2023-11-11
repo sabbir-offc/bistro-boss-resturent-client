@@ -1,12 +1,13 @@
-import { Helmet } from "react-helmet-async";
 import Cover from "../Shared/Cover";
 import menuImg from "../../assets/menu/banner3.jpg";
 import dessertImg from "../../assets/menu/dessert-bg.jpeg";
 import pizzaImg from "../../assets/menu/pizza-bg.jpg";
 import saladImg from "../../assets/menu/salad-bg.jpg";
+import soupImg from "../../assets/menu/soup-bg.jpg";
 import useMenu from "../../hooks/useMenu";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import MenuCategory from "./MenuCategory";
+import HelmetTitle from "../../components/HelmetTitle/HelmetTitle";
 
 const Menu = () => {
   const [menu] = useMenu();
@@ -19,9 +20,7 @@ const Menu = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Bistro Boss | Menu</title>
-      </Helmet>
+      <HelmetTitle title="Menu" />
       {/* main cover */}
       <Cover img={menuImg} title="our menu" />
 
@@ -31,11 +30,15 @@ const Menu = () => {
       {/* offerer menu items */}
       <MenuCategory items={offered} />
       {/* desert menu items */}
-      <MenuCategory items={dessert} title="DESSERTS" coverImg={dessertImg} />
+      <MenuCategory items={dessert} title="desserts" coverImg={dessertImg} />
       {/* pizza menu items */}
       <MenuCategory items={pizza} title="pizzas" coverImg={pizzaImg} />
       {/* salads menu items */}
       <MenuCategory items={salad} title="salads" coverImg={saladImg} />
+      {/* soups menu items */}
+      <MenuCategory items={soup} title="soups" coverImg={soupImg} />
+      {/* drinks menu items */}
+      <MenuCategory items={drinks} title="drinks" coverImg={soupImg} />
     </div>
   );
 };
