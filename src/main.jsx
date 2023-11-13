@@ -9,6 +9,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { HelmetProvider } from "react-helmet-async";
 import AuthProvider from "./Providers/AuthProvider";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <div className="max-w-screen-xl mx-auto relative">
           <RouterProvider router={router} />
         </div>
+        <Toaster />
       </HelmetProvider>
     </AuthProvider>
   </React.StrictMode>
