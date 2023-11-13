@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const Testimonial = () => {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    fetch("/reviews.json")
+    fetch("http://localhost:5000/api/v1/reviews")
       .then((res) => res.json())
       .then((data) => setReviews(data));
   }, []);
