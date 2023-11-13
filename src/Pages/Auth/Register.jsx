@@ -1,15 +1,23 @@
 import { ArrowRight } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-  const handleRegister = (e) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  /* const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
     const image = form.image.value;
     const email = form.email.value;
     const password = form.password.value;
-  };
+  }; */
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -40,15 +48,14 @@ const Register = () => {
               Sign In
             </Link>
           </p>
-          <form onSubmit={handleRegister} className="mt-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
             <div className="space-y-5">
               <div>
                 <label
                   htmlFor="name"
                   className="text-base font-medium text-gray-900"
                 >
-                  {" "}
-                  Full Name{" "}
+                  Full Name
                 </label>
                 <div className="mt-2">
                   <input
@@ -57,6 +64,7 @@ const Register = () => {
                     placeholder="Full Name"
                     id="name"
                     name="name"
+                    {...register("name")}
                   ></input>
                 </div>
               </div>
@@ -74,6 +82,7 @@ const Register = () => {
                     placeholder="Full Name"
                     id="image"
                     name="image"
+                    {...register("image")}
                   ></input>
                 </div>
               </div>
@@ -82,17 +91,20 @@ const Register = () => {
                   htmlFor="email"
                   className="text-base font-medium text-gray-900"
                 >
-                  {" "}
-                  Email address{" "}
+                  Email address
                 </label>
-                <div className="mt-2">
+                <div className="mt-2 space-y-3">
                   <input
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     name="email"
                     placeholder="Email"
                     id="email"
+                    {...register("email", { required: true })}
                   ></input>
+                  {errors.email && (
+                    <span className="text-red-600 py-2">Email is required</span>
+                  )}
                 </div>
               </div>
               <div>
@@ -101,8 +113,7 @@ const Register = () => {
                     htmlFor="password"
                     className="text-base font-medium text-gray-900"
                   >
-                    {" "}
-                    Password{" "}
+                    Password
                   </label>
                 </div>
                 <div className="mt-2">
@@ -112,7 +123,27 @@ const Register = () => {
                     name="password"
                     placeholder="Password"
                     id="password"
+                    {...register("password", {
+                      required: true,
+                      minLength: 6,
+                      maxLength: 12,
+                    })}
                   ></input>
+                  {errors.password?.type === "required" && (
+                    <span className="text-red-600 py-2">
+                      Password is required
+                    </span>
+                  )}
+                  {errors.password?.type === "maxLength" && (
+                    <span className="text-red-600 py-2">
+                      Password must be lower than 12 characters
+                    </span>
+                  )}
+                  {errors.password?.type === "minLength" && (
+                    <span className="text-red-600 py-2">
+                      Password must be greated than 6 characters
+                    </span>
+                  )}
                 </div>
               </div>
               <div>
