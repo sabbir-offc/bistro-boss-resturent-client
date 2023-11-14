@@ -28,7 +28,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    const toastId = toast.loading("Account Creating...");
+    const toastId = toast.loading("Logging...");
     await loginUser(data.email, data.password)
       .then(() => {
         toast.success("Login Successfull.", { id: toastId });
@@ -178,7 +178,7 @@ const Login = () => {
                     type="submit"
                     className="inline-flex disabled:bg-gray-400 w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                   >
-                    Get started <ArrowRight className="ml-2" size={16} />
+                    Login <ArrowRight className="ml-2" size={16} />
                   </button>
                 </div>
               </div>
