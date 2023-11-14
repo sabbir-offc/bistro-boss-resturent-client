@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 const Navbar = () => {
@@ -99,7 +99,7 @@ const Navbar = () => {
                     <span className="text-info">Subtotal: ${total}</span>
                     <div className="card-actions">
                       <button className="btn btn-primary btn-block">
-                        View cart
+                        <Link to="/dashboard/cart">View cart</Link>
                       </button>
                     </div>
                   </div>
