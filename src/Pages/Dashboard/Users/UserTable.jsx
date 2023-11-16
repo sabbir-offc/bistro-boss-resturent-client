@@ -1,12 +1,11 @@
+import { FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxios from "../../../hooks/useAxios";
-import useCart from "../../../hooks/useCart";
-
-const CartTable = ({ item, index }) => {
-  const { _id, name, image, price } = item;
+import toast from "react-hot-toast";
+const UserTable = ({ user, index, refetch }) => {
   const axiosSecure = useAxios();
-  const { refetch } = useCart();
-  const handleDelete = () => {
+  const { _id, name, email, role } = user;
+  const handleDeleteUser = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -17,17 +16,24 @@ const CartTable = ({ item, index }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/carts/${_id}`).then((res) => {
+        axiosSecure.delete(`/users/${_id}`).then((res) => {
           console.log(res.data);
           if (res.data.deletedCount > 0) refetch();
           Swal.fire({
             title: "Deleted!",
-            text: "Your ordered Food has been deleted.",
+            text: "User has been deleted.",
             icon: "success",
           });
         });
       }
     });
+  };
+
+  //update role
+  const handleMakeAdmin = async () => {
+    const { data } = await axiosSecure.patch(`/users/admin/${_id}`);
+    if (data.modifiedCount > 0) refetch();
+    return toast.success(`${name} has been updated to admin role.`);
   };
   return (
     <tr>
@@ -35,23 +41,28 @@ const CartTable = ({ item, index }) => {
         <h2 className="font-medium text-gray-800 ">{index}</h2>
       </td>
       <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-        <div className="inline-flex items-center gap-x-3">
-          <div className="flex items-center gap-x-2">
-            <img className="object-cover w-20 h-20" src={image} alt="" />
-          </div>
-        </div>
+        <h2 className="font-medium text-gray-800 ">{name}</h2>
       </td>
 
       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-        <h2 className="font-medium text-gray-800 ">{name}</h2>
+        <h2 className="font-medium text-gray-800 ">{email}</h2>
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
-        <h2 className="font-medium text-gray-800 ">${price}</h2>
+        {role === "admin" ? (
+          "Admin"
+        ) : (
+          <button
+            onClick={handleMakeAdmin}
+            className="text-white bg-[#D1A054] transition-colors duration-300 p-3  hover:text-[#D1A054] hover:bg-transparent focus:outline-none"
+          >
+            <FaUsers size={23} />
+          </button>
+        )}
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
         <div className="flex items-center gap-x-6">
           <button
-            onClick={handleDelete}
+            onClick={handleDeleteUser}
             className="text-white bg-[#B91C1C] transition-colors duration-300 p-3  hover:text-red-500 hover:bg-transparent focus:outline-none"
           >
             <svg
@@ -75,4 +86,4 @@ const CartTable = ({ item, index }) => {
   );
 };
 
-export default CartTable;
+export default UserTable;

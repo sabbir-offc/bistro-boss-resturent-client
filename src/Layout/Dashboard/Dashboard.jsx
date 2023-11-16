@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { TiHome, TiShoppingCart } from "react-icons/ti";
-import { FaUtensils, FaList } from "react-icons/fa";
+import { FaUtensils, FaList, FaUsers } from "react-icons/fa";
 import {
   BookText,
   CalendarDays,
@@ -9,7 +9,6 @@ import {
   Menu,
   ShoppingBag,
   Star,
-  Users2,
 } from "lucide-react";
 import { Email, PaymentOutlined } from "@mui/icons-material";
 
@@ -24,32 +23,32 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <li>
-                <NavLink to="/dashboard/user-home">
+                <NavLink to="/dashboard/admin-home">
                   <TiHome size={23} />
                   Admin Home
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/reservation">
+                <NavLink to="/dashboard/add-items">
                   <FaUtensils size={23} />
                   add items
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/payment-history">
+                <NavLink to="/dashboard/manage-items">
                   <FaList size={23} />
                   manage items
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/cart">
+                <NavLink to="/dashboard/manage-booking">
                   <BookText />
                   Manage bookings
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/add-review">
-                  <Users2 />
+                <NavLink to="/dashboard/users">
+                  <FaUsers size={23} />
                   all users
                 </NavLink>
               </li>

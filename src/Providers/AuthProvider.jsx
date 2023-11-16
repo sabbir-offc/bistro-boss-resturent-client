@@ -9,11 +9,13 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
   const googleProvider = new GoogleAuthProvider();
   //creating user
   const createUser = (email, password) => {
@@ -49,6 +51,16 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        const userInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token)
+            localStorage.setItem("access-token", res.data.token);
+        });
+      } else {
+        // TODO: remove token if user doesn't exist.
+        localStorage.removeItem("access-token");
+      }
       setLoading(false);
     });
 

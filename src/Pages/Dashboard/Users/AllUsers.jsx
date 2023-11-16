@@ -1,23 +1,24 @@
-import HelmetTitle from "../../../components/HelmetTitle/HelmetTitle";
+import { useQuery } from "@tanstack/react-query";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import Table from "./CartTable";
-import useCart from "../../../hooks/useCart";
+import UserTable from "./UserTable";
+import useAxios from "../../../hooks/useAxios";
 
-const Cart = () => {
-  const { cart } = useCart();
-  const totalPrice = cart.reduce((acc, curr) => acc + parseInt(curr.price), 0);
+const AllUsers = () => {
+  const axiosSecure = useAxios();
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/users");
+      return data;
+    },
+  });
   return (
     <>
-      <HelmetTitle title="My Cart" />
       <div>
-        <SectionTitle subHeading="My Cart" heading="WANNA ADD MORE?" />
+        <SectionTitle subHeading="How many??" heading="MANAGE ALL USERS" />
         <div className="mt-16 bg-gray-100 p-11">
           <div className="flex justify-between items-center">
-            <h2 className="text-3xl uppercase">Total orders: {cart.length}</h2>
-            <h2 className="text-3xl uppercase">Total price: {totalPrice}</h2>
-            <button className="uppercase bg-[#D1A054] text-white px-4 py-3 rounded-md">
-              pay
-            </button>
+            <h2 className="text-3xl uppercase">Total Users: {users.length}</h2>
           </div>
 
           <section className="container px-4 mx-auto">
@@ -39,36 +40,40 @@ const Cart = () => {
                             className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 "
                           >
                             <div className="flex items-center gap-x-3">
-                              <span>Item Image</span>
+                              <span>NAME</span>
                             </div>
                           </th>
 
                           <th
                             scope="col"
-                            className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 "
+                            className="px-4 py-3.5 text-sm font-normal text-left text-gray-500 "
                           >
-                            Item Name
+                            EMAIL
                           </th>
 
                           <th
                             scope="col"
                             className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 "
                           >
-                            Price
+                            ROLE
                           </th>
                           <th
                             scope="col"
                             className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 "
                           >
-                            Action
+                            ACTION
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {cart &&
-                          cart.map((item, idx) => (
-                            <Table key={item._id} index={idx + 1} item={item} />
-                          ))}
+                        {users?.map((user, idx) => (
+                          <UserTable
+                            refetch={refetch}
+                            key={user._id}
+                            index={idx + 1}
+                            user={user}
+                          />
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -82,4 +87,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default AllUsers;
