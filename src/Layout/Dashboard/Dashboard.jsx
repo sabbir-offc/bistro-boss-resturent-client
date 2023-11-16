@@ -1,62 +1,100 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { TiHome, TiShoppingCart } from "react-icons/ti";
+import { FaUtensils, FaList } from "react-icons/fa";
 import {
+  BookText,
   CalendarDays,
   CalendarHeart,
   Home,
   Menu,
   ShoppingBag,
   Star,
+  Users2,
 } from "lucide-react";
-import {
-  Email,
-  PaymentOutlined,
-  ReviewsOutlined,
-  Shop,
-} from "@mui/icons-material";
+import { Email, PaymentOutlined } from "@mui/icons-material";
 
 const Dashboard = () => {
+  //TODO: get isAdmin value from the database.
+  const isAdmin = true;
   return (
-    <div className="flex">
+    <div className="flex relative">
       {/* Dashboard sidebar */}
       <div className="w-64 min-h-full bg-[#D1A054]">
         <ul className="menu p-4 space-y-3 uppercase">
-          <li>
-            <NavLink to="/dashboard/user-home">
-              <TiHome size={23} />
-              User Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/reservation">
-              <CalendarDays size={23} />
-              reservation
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/payment-history">
-              <PaymentOutlined />
-              payment history
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/cart">
-              <TiShoppingCart size={23} />
-              My Cart
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/add-review">
-              <Star />
-              add review
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/my-booking">
-              <CalendarHeart />
-              my booking
-            </NavLink>
-          </li>
+          {isAdmin ? (
+            <>
+              <li>
+                <NavLink to="/dashboard/user-home">
+                  <TiHome size={23} />
+                  Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reservation">
+                  <FaUtensils size={23} />
+                  add items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/payment-history">
+                  <FaList size={23} />
+                  manage items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/cart">
+                  <BookText />
+                  Manage bookings
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/add-review">
+                  <Users2 />
+                  all users
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/dashboard/user-home">
+                  <TiHome size={23} />
+                  User Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reservation">
+                  <CalendarDays size={23} />
+                  reservation
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/payment-history">
+                  <PaymentOutlined />
+                  payment history
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/cart">
+                  <TiShoppingCart size={23} />
+                  My Cart
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/add-review">
+                  <Star />
+                  add review
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/my-booking">
+                  <CalendarHeart />
+                  my booking
+                </NavLink>
+              </li>
+            </>
+          )}
+          {/* Shared Nav link */}
           <div className="divider"></div>
           <li>
             <NavLink to="/">

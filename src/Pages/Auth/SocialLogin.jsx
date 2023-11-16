@@ -1,15 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SocialLogin = () => {
   const { googleSign } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const handleGoogleSign = async () => {
     await googleSign()
-      .then(() => {
-        toast.success("Sign in successfull.");
-        navigate("/");
+      .then((res) => {
+        const user = res.user;
+        const userInfo = {
+          name: user?.displayName,
+          email: user?.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            toast.success("Sign in successfull.");
+          }
+          navigate("/");
+        });
       })
       .catch(() => {
         toast.error("Sign In Failed.");

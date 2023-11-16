@@ -5,8 +5,10 @@ import WebTitle from "../../components/WebTitle";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
   const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const {
@@ -20,9 +22,18 @@ const Register = () => {
     await createUser(data.email, data.password)
       .then(() => {
         updateUserProfile(data.name, data.image).then(() => {
-          toast.success("Account Create Successfull", { id: toastId });
-          reset();
-          navigate("/");
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("user added to the database.");
+              reset();
+              toast.success("Account Create Successfull", { id: toastId });
+              navigate("/");
+            }
+          });
         });
       })
       .catch(() => {
@@ -98,7 +109,7 @@ const Register = () => {
                     <input
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                       type="url"
-                      placeholder="Full Name"
+                      placeholder="Image URL"
                       id="image"
                       name="image"
                       {...register("image", { required: true })}
