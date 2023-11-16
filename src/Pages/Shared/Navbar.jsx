@@ -5,7 +5,6 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const { cart } = useCart();
   const total = cart?.reduce((acc, curr) => acc + parseInt(curr.price), 0);
-  console.log(total);
   const navLink = (
     <>
       <li>

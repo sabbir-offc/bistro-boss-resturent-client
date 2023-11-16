@@ -11,10 +11,11 @@ import {
   Star,
 } from "lucide-react";
 import { Email, PaymentOutlined } from "@mui/icons-material";
+import useAdmin from "../../hooks/useAdmin";
 
 const Dashboard = () => {
   //TODO: get isAdmin value from the database.
-  const isAdmin = true;
+  const { isAdmin } = useAdmin();
   return (
     <div className="flex relative">
       {/* Dashboard sidebar */}
