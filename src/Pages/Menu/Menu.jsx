@@ -10,13 +10,14 @@ import MenuCategory from "./MenuCategory";
 import HelmetTitle from "../../components/HelmetTitle/HelmetTitle";
 
 const Menu = () => {
-  const [menu] = useMenu();
-  const dessert = menu.filter((item) => item.category === "dessert");
-  const pizza = menu.filter((item) => item.category === "pizza");
-  const salad = menu.filter((item) => item.category === "salad");
-  const soup = menu.filter((item) => item.category === "soup");
-  const drinks = menu.filter((item) => item.category === "drinks");
-  const offered = menu.filter((item) => item.category === "offered");
+  const { menu, loading } = useMenu();
+  if (loading) return <p>LOading....</p>;
+  const dessert = menu?.filter((item) => item.category === "dessert");
+  const pizza = menu?.filter((item) => item.category === "pizza");
+  const salad = menu?.filter((item) => item.category === "salad");
+  const soup = menu?.filter((item) => item.category === "soup");
+  const drinks = menu?.filter((item) => item.category === "drinks");
+  const offered = menu?.filter((item) => item.category === "offered");
 
   return (
     <div>

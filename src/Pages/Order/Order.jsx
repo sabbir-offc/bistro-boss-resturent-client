@@ -10,11 +10,19 @@ import HelmetTitle from "../../components/HelmetTitle/HelmetTitle";
 
 const Order = () => {
   const { category } = useParams();
-  const categories = ["salads", "pizzas", "soups", "desserts", "drinks"];
+  const categories = [
+    "salads",
+    "pizzas",
+    "soups",
+    "desserts",
+    "drinks",
+    "offered",
+  ];
   const initialIndex = categories.indexOf(category);
   const [tabIndex, setTabIndex] = useState(initialIndex);
-  const [menu] = useMenu();
+  const { menu } = useMenu();
 
+  const offered = menu.filter((item) => item.category === "offered");
   const dessert = menu.filter((item) => item.category === "dessert");
   const pizza = menu.filter((item) => item.category === "pizza");
   const salad = menu.filter((item) => item.category === "salad");
@@ -27,12 +35,16 @@ const Order = () => {
       <div className="my-5">
         <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
           <TabList>
+            <Tab>Offered</Tab>
             <Tab>Salad</Tab>
             <Tab>Pizza</Tab>
             <Tab>Soups</Tab>
             <Tab>Desserts</Tab>
             <Tab>Drinks</Tab>
           </TabList>
+          <TabPanel>
+            <OrderTab items={offered}></OrderTab>
+          </TabPanel>
           <TabPanel>
             <OrderTab items={salad}></OrderTab>
           </TabPanel>

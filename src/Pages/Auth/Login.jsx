@@ -7,10 +7,11 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import WebTitle from "../../components/WebTitle";
+
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
+import HelmetTitle from "../../components/HelmetTitle/HelmetTitle";
 
 const Login = () => {
   const { loginUser } = useAuth();
@@ -54,7 +55,7 @@ const Login = () => {
 
   return (
     <>
-      <WebTitle title="Login" />
+      <HelmetTitle title="Login" />
       <section>
         <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">

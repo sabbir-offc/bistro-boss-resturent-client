@@ -1,11 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import WebTitle from "../../components/WebTitle";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import HelmetTitle from "../../components/HelmetTitle/HelmetTitle";
 
 const Register = () => {
   const axiosPublic = useAxiosPublic();
@@ -43,7 +43,7 @@ const Register = () => {
 
   return (
     <>
-      <WebTitle title="Register" />
+      <HelmetTitle title="Register" />
       <section>
         <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">

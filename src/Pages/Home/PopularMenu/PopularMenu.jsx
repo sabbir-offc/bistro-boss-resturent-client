@@ -3,8 +3,8 @@ import useMenu from "../../../hooks/useMenu";
 import MenuItem from "../../Shared/MenuItem";
 
 const PopularMenu = () => {
-  const [menu, loading] = useMenu();
-  const popular = menu.filter((item) => item.category === "popular");
+  const { menu, loading } = useMenu();
+  const popular = menu?.filter((item) => item.category === "popular");
   if (loading) {
     return <div>Loading...</div>;
   }
