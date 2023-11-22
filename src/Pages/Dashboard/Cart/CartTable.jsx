@@ -1,13 +1,7 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BiSolidEdit } from "react-icons/bi";
 
-const CartTable = ({
-  item,
-  index,
-  handleDeleteMenu,
-  handleUpdateMenu,
-  handleDeleteBooking,
-}) => {
+const CartTable = ({ item, index, handleDeleteMenu, handleDeleteBooking }) => {
   const { _id, name, image, price } = item;
   const location = useLocation();
 
@@ -55,12 +49,11 @@ const CartTable = ({
           </div>
         ) : (
           <div>
-            <button
-              onClick={() => handleUpdateMenu(_id)}
-              className="text-white mr-5 bg-[#D1A054] transition-colors duration-300 p-3  hover:text-[#D1A054] hover:bg-transparent focus:outline-none"
-            >
-              <BiSolidEdit size={20} />
-            </button>
+            <Link to={`/dashboard/update-item/${_id}`}>
+              <button className="text-white mr-5 bg-[#D1A054] transition-colors duration-300 p-3  hover:text-[#D1A054] hover:bg-transparent focus:outline-none">
+                <BiSolidEdit size={20} />
+              </button>
+            </Link>
             <button
               onClick={() => handleDeleteMenu(_id)}
               className="text-white bg-[#B91C1C] transition-colors duration-300 p-3  hover:text-red-500 hover:bg-transparent focus:outline-none"

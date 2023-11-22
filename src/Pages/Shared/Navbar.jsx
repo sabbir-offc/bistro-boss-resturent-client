@@ -1,10 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const { cart } = useCart();
-  const total = cart?.reduce((acc, curr) => acc + parseInt(curr.price), 0);
+  const { isAdmin, isAdminLoading } = useAdmin();
+
+  const total = cart?.reduce((acc, curr) => acc + parseFloat(curr.price), 0);
+  const totalPrice = total.toFixed(2);
+  if (isAdminLoading) return <p>Loading...</p>;
   const navLink = (
     <>
       <li>
@@ -14,7 +19,12 @@ const Navbar = () => {
         <NavLink>CONTACT US</NavLink>
       </li>
       <li>
-        <NavLink>DASHBOARD</NavLink>
+        {user && isAdmin && (
+          <NavLink to="/dashboard/admin-home">DASHBOARD</NavLink>
+        )}
+        {user && !isAdmin && (
+          <NavLink to="/dashboard/user-home">DASHBOARD</NavLink>
+        )}
       </li>
       <li>
         <NavLink to="/menu">Our Menu</NavLink>
@@ -95,7 +105,7 @@ const Navbar = () => {
                     <span className="font-bold text-lg">
                       {cart && cart.length} Food
                     </span>
-                    <span className="text-info">Subtotal: ${total}</span>
+                    <span className="text-info">Subtotal: ${totalPrice}</span>
                     <div className="card-actions">
                       <button className="btn btn-primary btn-block">
                         <Link to="/dashboard/cart">View cart</Link>

@@ -1,7 +1,51 @@
+import { useParams } from "react-router-dom";
 import HelmetTitle from "../../../components/HelmetTitle/HelmetTitle";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-
+import useMenu from "../../../hooks/useMenu";
+import { useForm } from "react-hook-form";
+import { FaUtensils } from "react-icons/fa";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxios from "../../../hooks/useAxios";
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const UpdateItems = () => {
+  const { id } = useParams();
+  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxios();
+
+  const { handleSubmit, register, reset } = useForm();
+  const { menu, loading } = useMenu();
+  if (loading) return <p>Loading...</p>;
+  const item = menu.find((item) => item._id === id);
+  const { name, recipe, price, category, _id, image } = item;
+  const onSubmit = async (data) => {
+    //image upload to imgbb and then get an url.
+    const imageFile = { image: data.image[0] };
+
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
+      //now send the menu item data to the server with the image url.
+      const menuItem = {
+        name: data.name,
+        category: data.category,
+        price: parseFloat(data.price),
+        image: res.data.data.display_url || image,
+        recipe: data.recipe,
+      };
+      //now
+      const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
+      console.log(menuRes.data);
+      if (menuRes.data.modifiedCount) {
+        reset();
+        return alert("Updated.");
+      }
+    }
+  };
+
   return (
     <div>
       <HelmetTitle title="Add Item" />
@@ -18,7 +62,7 @@ const UpdateItems = () => {
                 type="text"
                 placeholder="Recipe Name"
                 required
-                {...register("name")}
+                {...register("name", { value: name })}
               ></input>
             </div>
           </div>
@@ -28,7 +72,7 @@ const UpdateItems = () => {
                 <span className="label-text">Category</span>
               </label>
               <select
-                defaultValue="default"
+                defaultValue={category}
                 {...register("category", { required: true })}
                 required
                 className="select select-bordered w-full"
@@ -63,7 +107,7 @@ const UpdateItems = () => {
                   type="text"
                   placeholder="Price"
                   required
-                  {...register("price")}
+                  {...register("price", { value: price })}
                 ></input>
               </div>
             </div>
@@ -79,7 +123,7 @@ const UpdateItems = () => {
                 type="text"
                 required
                 placeholder="Recipe Details*"
-                {...register("recipe")}
+                {...register("recipe", { value: recipe })}
               ></textarea>
             </div>
           </div>
@@ -97,7 +141,7 @@ const UpdateItems = () => {
               type="submit"
               className="bg-gradient-to-r from-[#835D23] to-[#B58130] px-8 py-4 text-white font-bold btn items-center  mt-5 rounded-md"
             >
-              Add Item <FaUtensils />
+              Update Item <FaUtensils />
             </button>
           </div>
         </form>

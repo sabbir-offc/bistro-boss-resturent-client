@@ -12,10 +12,12 @@ import {
 } from "lucide-react";
 import { Email, PaymentOutlined } from "@mui/icons-material";
 import useAdmin from "../../hooks/useAdmin";
+import useCart from "../../hooks/useCart";
 
 const Dashboard = () => {
   //TODO: get isAdmin value from the database.
   const { isAdmin } = useAdmin();
+  const { cart } = useCart();
   return (
     <div className="flex relative">
       {/* Dashboard sidebar */}
@@ -77,7 +79,7 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/cart">
                   <TiShoppingCart size={23} />
-                  My Cart
+                  My Cart ({cart.length})
                 </NavLink>
               </li>
               <li>

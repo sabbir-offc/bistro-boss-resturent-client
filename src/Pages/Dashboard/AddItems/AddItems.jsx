@@ -12,7 +12,6 @@ const AddItems = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxios();
   const onSubmit = async (data) => {
-    console.log(data);
     //image upload to imgbb and then get an url.
     const imageFile = { image: data.image[0] };
 

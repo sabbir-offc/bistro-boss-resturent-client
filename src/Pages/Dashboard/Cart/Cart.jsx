@@ -4,11 +4,13 @@ import Table from "./CartTable";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import useAxios from "../../../hooks/useAxios";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart, refetch } = useCart();
   const axiosSecure = useAxios();
-  const totalPrice = cart.reduce((acc, curr) => acc + parseInt(curr.price), 0);
+  const total = cart.reduce((acc, curr) => acc + parseFloat(curr.price), 0);
+  const totalPrice = total.toFixed(2);
   const handleDeleteBooking = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -41,9 +43,20 @@ const Cart = () => {
           <div className="flex justify-between items-center">
             <h2 className="text-3xl uppercase">Total orders: {cart.length}</h2>
             <h2 className="text-3xl uppercase">Total price: {totalPrice}</h2>
-            <button className="uppercase bg-[#D1A054] text-white px-4 py-3 rounded-md">
-              pay
-            </button>
+            {cart.length ? (
+              <Link to="/dashboard/payment">
+                <button className="uppercase bg-[#D1A054] text-white px-4 py-3 rounded-md">
+                  pay
+                </button>
+              </Link>
+            ) : (
+              <button
+                disabled
+                className="uppercase disabled:bg-gray-400 bg-[#D1A054] text-white px-4 py-3 rounded-md"
+              >
+                pay
+              </button>
+            )}
           </div>
 
           <section className="container px-4 mx-auto">
